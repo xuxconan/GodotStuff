@@ -1,0 +1,47 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+// 颜色混合相关
+uniform vec4 mix_color : hint_color = vec4(1);  // 混合颜色，默认为白色
+uniform float mix_rate : hint_range(0, 1) = 0.0;  // 混合比例，默认为不取混合颜色
+uniform bool mix_transparent = false;  // 是否混合原图的透明像素，默认为不混合
+
+// 虚线配置相关
+uniform float seg_length : hint_range(0, 100) = 10.0;  // 线段长度
+uniform float seg_gap : hint_range(0, 100) = 10.0;  // 线段间隔
+uniform float animate_speed : hint_range(0, 10) = 0.0;  // 动画速度
+
+void fragment() {
+	// 将长度转换为比例
+	float sized_seg_length = TEXTURE_PIXEL_SIZE.x * seg_length;
+	float sized_seg_gap = TEXTURE_PIXEL_SIZE.x * seg_gap;
+	float sized_seg_part = sized_seg_length + sized_seg_gap;
+	
+	// 加上动画效果
+	float offset = TIME * animate_speed / 20.0;
+	if (offset > sized_seg_part) {
+		offset = offset - floor(offset / sized_seg_part) * sized_seg_part;
+	}
+	
+	// 求出虚线的部分占虚线和空格的百分比，比这个小则显示，比这个大则隐藏
+	float seg_percentage = sized_seg_length / sized_seg_part;
+	
+	// 求出uv在哪一段虚线的哪一部分
+	float uv_in_part = (UV.x + offset) / sized_seg_part;
+	float uv_in_part_percent = uv_in_part - floor(uv_in_part);
+	
+	// 进行颜色混合
+	vec4 color = texture(TEXTURE, UV);
+	if (mix_transparent || color.a > 0.0) {
+		color = mix(color, mix_color, mix_rate);
+	}
+	
+	// 间隔区取透明
+	if (uv_in_part_percent > seg_percentage) {
+		color.a = 0.0;
+	}
+	
+	COLOR = color;
+}"
