@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Assets/Images/GodotLogo.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Images/UVTest.png" type="Texture" id=2]
-[ext_resource path="res://Release/Shaders/1_DashedLine/DashedLine.tres" type="Shader" id=3]
+[ext_resource path="res://Release/Shaders/DashedLine/DashedLine.tres" type="Shader" id=3]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 3 )

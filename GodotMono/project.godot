@@ -13,6 +13,10 @@ config_version=4
 config/name="Godot Stuff"
 config/icon="res://icon.png"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/PluginHelper/plugin.cfg" )
+
 [physics]
 
 common/enable_pause_aware_picking=true
