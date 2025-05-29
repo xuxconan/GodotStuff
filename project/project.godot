@@ -10,9 +10,14 @@ config_version=5
 
 [application]
 
-config/name="godot_stuff_project"
+config/name="project"
+run/main_scene="uid://d3x6f6sldgn5s"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="project"
 
 [rendering]
 

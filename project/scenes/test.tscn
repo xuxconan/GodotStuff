@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3x6f6sldgn5s"]
+
+[ext_resource type="PackedScene" uid="uid://c65l0yen0e8yg" path="res://components/address_line_edit/address_line_edit.tscn" id="1_errlg"]
+
+[node name="Test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AddressLineEdit" parent="." instance=ExtResource("1_errlg")]
+text = "D:\\Applications\\Tools\\NetSarang\\FTPFiles"
