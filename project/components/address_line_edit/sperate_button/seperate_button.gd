@@ -1,14 +1,22 @@
-## 分割按钮的主要逻辑类
-extends Node
-
-## 组件对外暴露脚本
-@export var exposer: AddressSeperateButtonExpose
+class_name AddressLineEditSeperateButton
+extends Control
 
 @export_group("Nodes")
 ## 用来触发选项显示隐藏的按钮
 @export var trigger_button: Button
 ## 选项列表
 @export var options_list: ItemList
+
+@export_group("Options")
+## 选项列表挂载的父节点
+@export var options_parent: Control
+## 选项列表相对于按钮的偏移
+@export var options_offset := Vector2(0.0, 5.0)
+## 选项列表数据
+@export var options := []
+
+## 选项被选中时的信号
+signal item_selected(index: int, content: String)
 
 func _ready() -> void:
 	# 初始化属性
@@ -21,7 +29,7 @@ func _ready() -> void:
 # 当下拉列表被选中时向组件外释放信号
 func _on_options_list_item_selected(index: int) -> void:
 	var content := options_list.get_item_text(index)
-	exposer.emit_signal("item_selected", index, content)
+	item_selected.emit(index, content)
 	
 # 当按钮被激活时显示选项列表，当按钮被取消激活时隐藏选项列表
 func _on_trigger_button_toggled(toggled_on: bool) -> void:
@@ -39,7 +47,7 @@ func remount_options_list() -> bool:
 	var old_parent := options_list.get_parent()
 	if old_parent:
 		old_parent.remove_child(options_list)
-	var new_parent := exposer.options_parent
+	var new_parent := options_parent
 	if !new_parent:
 		new_parent = old_parent
 	if !new_parent:
@@ -52,7 +60,7 @@ func remount_options_list() -> bool:
 	var relative_position := relative_transform.origin
 	relative_position.x *= -1
 	relative_position.y += trigger_button.size.y
-	var offset := exposer.options_offset
+	var offset := options_offset
 	if offset:
 		relative_position += offset
 	options_list.position = relative_position
@@ -61,6 +69,5 @@ func remount_options_list() -> bool:
 # 根据暴露的选项列表变量更新显示列表
 func update_options_list() -> void:
 	options_list.clear()
-	var options := exposer.options
 	for text in options:
 		options_list.add_item(text)

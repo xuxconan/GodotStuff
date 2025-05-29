@@ -1,6 +1,6 @@
 ## 地址输入栏的暴露属性类
 class_name AddressLineEditExpose
-extends Node
+extends Control
 
 ## 初始化地址文字
 @export var text := ""
