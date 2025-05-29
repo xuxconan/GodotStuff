@@ -17,6 +17,8 @@ extends Node
 @export var line_edit: LineEdit
 ## 地址按钮组容器
 @export var button_group: Container
+## 地址按钮滚动容器
+@export var button_group_scroll_container: ScrollContainer
 ## 按钮组的模式触发区
 @export var button_group_mode_trigger_zone: Panel
 ## 提示窗口
@@ -26,6 +28,8 @@ enum MODE { LINE_EDIT = 0, BUTTON_GROUP = 1 }
 
 # 用户可能会输入不存在的地址，因此这里需要缓存上次用户输入的有效地址，当用户输入无效地址时重置为旧的地址
 var avalible_text := ""
+# 按钮组变化时，需要scrollcontainer滚动到末端，但scrollcontainer检测子节点长度变化是个异步过程，需要缓存一个标记
+var button_group_dirty := false
 
 func _ready() -> void:
 	# 属性初始化
@@ -39,6 +43,8 @@ func _ready() -> void:
 	line_edit.text_submitted.connect(_on_line_edit_text_submitted)
 	button_group.gui_input.connect(_on_button_group_gui_input)
 	button_group_mode_trigger_zone.gui_input.connect(_on_button_group_mode_trigger_zone_gui_input)
+	var scroll_bar := button_group_scroll_container.get_h_scroll_bar()
+	scroll_bar.changed.connect(_on_button_group_scroll_container_scrollbar_changed)
 
 # 当文字改变时同步到外部
 func _on_line_edit_text_changed(new_text: String) -> void:
@@ -64,6 +70,13 @@ func _on_button_group_mode_trigger_zone_gui_input(event: InputEvent) -> void:
 	var button_event := event as InputEventMouseButton
 	if button_event and button_event.button_index == 1 and button_event.pressed == false:
 		switch_to_line_edit()
+		
+func _on_button_group_scroll_container_scrollbar_changed() -> void:
+	if !button_group_dirty:
+		return
+	button_group_dirty = false
+	var scroll_bar := button_group_scroll_container.get_h_scroll_bar()
+	button_group_scroll_container.scroll_horizontal = ceili(scroll_bar.max_value)
 
 # 切换到按钮组
 func switch_to_button_group() -> void:
@@ -102,6 +115,7 @@ func update_button_group() -> void:
 			path_list.remove_at(index)
 	if path_list.size() == 0:
 		mode_container.current_tab = MODE.LINE_EDIT
+		exposer.emit_signal("address_changed", text)
 		return
 	# 根据地址片段生成地址按钮和分割按钮
 	var button_path_list := []
@@ -120,7 +134,7 @@ func update_button_group() -> void:
 		var path_dir := DirAccess.open(button_path)
 		var sub_directories := path_dir.get_directories()
 		if sub_directories.size() == 0: # 无子路径的话不显示按钮
-			return
+			continue
 		var seperate_button := seperate_button_prefab.instantiate() as AddressSeperateButtonExpose
 		seperate_button.options_parent = root_node
 		seperate_button.options = sub_directories
@@ -129,3 +143,5 @@ func update_button_group() -> void:
 			update_button_group.call_deferred() # 更新按钮组
 		)
 		button_group.add_child(seperate_button)
+	button_group_dirty = true
+	exposer.emit_signal("address_changed", text)

@@ -11,7 +11,7 @@ offset_right = 600.0
 offset_bottom = 40.0
 script = ExtResource("1_ey4mu")
 
-[node name="Main" type="Node" parent="." node_paths=PackedStringArray("exposer", "root_node", "mode_container", "line_edit", "button_group", "button_group_mode_trigger_zone", "dialog")]
+[node name="Main" type="Node" parent="." node_paths=PackedStringArray("exposer", "root_node", "mode_container", "line_edit", "button_group", "button_group_scroll_container", "button_group_mode_trigger_zone", "dialog")]
 script = ExtResource("1_20wmr")
 exposer = NodePath("..")
 seperate_button_prefab = ExtResource("3_kqkbs")
@@ -19,6 +19,7 @@ root_node = NodePath("..")
 mode_container = NodePath("../TabContainer")
 line_edit = NodePath("../TabContainer/LineEditContainer/LineEdit")
 button_group = NodePath("../TabContainer/ButtonGroupContainer/ScrollContainer/ButtonGroup")
+button_group_scroll_container = NodePath("../TabContainer/ButtonGroupContainer/ScrollContainer")
 button_group_mode_trigger_zone = NodePath("../TabContainer/ButtonGroupContainer/TriggerZone")
 dialog = NodePath("../AcceptDialog")
 
@@ -68,7 +69,6 @@ vertical_scroll_mode = 0
 
 [node name="ButtonGroup" type="HBoxContainer" parent="TabContainer/ButtonGroupContainer/ScrollContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TriggerZone" type="Panel" parent="TabContainer/ButtonGroupContainer"]
