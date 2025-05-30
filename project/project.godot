@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 project/assembly_name="project"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/address_line_edit/plugin.cfg", "res://addons/address_line_edit_plugin/plugin.cfg", "res://addons/test_plugin/plugin.cfg")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

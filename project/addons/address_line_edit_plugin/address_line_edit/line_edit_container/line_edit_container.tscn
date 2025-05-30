@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dxqe5w18nuuyq"]
 
-[ext_resource type="Script" uid="uid://d0yutdbbidvb7" path="res://components/address_line_edit/line_edit_container/line_edit_container.gd" id="1_luytr"]
+[ext_resource type="Script" uid="uid://d0yutdbbidvb7" path="res://addons/address_line_edit_plugin/address_line_edit/line_edit_container/line_edit_container.gd" id="1_luytr"]
 
 [node name="LineEditContainer" type="HBoxContainer" node_paths=PackedStringArray("line_edit")]
 script = ExtResource("1_luytr")
