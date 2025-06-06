@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cpsgc18o0lgjy"]
 
-[ext_resource type="Script" uid="uid://bjam85w7egkir" path="res://addons/address_line_edit_plugin/address_line_edit/sperate_button/seperate_button.gd" id="1_0ryei"]
+[ext_resource type="Script" uid="uid://bjam85w7egkir" path="res://addons/directory_line_edit_plugin/directory_line_edit/sperate_button/seperate_button.gd" id="1_0ryei"]
 
 [sub_resource type="Image" id="Image_0ryei"]
 data = {

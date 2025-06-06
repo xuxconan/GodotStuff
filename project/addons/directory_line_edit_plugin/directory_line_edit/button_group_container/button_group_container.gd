@@ -1,4 +1,3 @@
-class_name AddressLineEditButtonGroupContainer
 extends HBoxContainer
 
 @export_group("Prefabs")
@@ -15,11 +14,11 @@ extends HBoxContainer
 ## 按钮组的模式触发区
 @export var button_group_mode_trigger_zone: Panel
 
-signal trigger_mode_to_line_edit()
-signal address_text_changed(new_text: String)
+signal request_line_edit_mode()
+signal directory_changed(new_text: String)
 
 # 地址的字符串
-var address_text := ""
+var directory_text := ""
 # 按钮组变化时，需要scrollcontainer滚动到末端，但scrollcontainer检测子节点长度变化是个异步过程，需要缓存一个标记
 var button_group_dirty := false
 
@@ -34,13 +33,13 @@ func _ready() -> void:
 func _on_button_group_scroll_container_gui_input(event: InputEvent) -> void:
 	var button_event := event as InputEventMouseButton
 	if button_event and button_event.button_index == 1 and button_event.pressed == false:
-		trigger_mode_to_line_edit.emit()
+		request_line_edit_mode.emit()
 
 # 点击按钮面板触发区时切换到输入框面板
 func _on_button_group_mode_trigger_zone_gui_input(event: InputEvent) -> void:
 	var button_event := event as InputEventMouseButton
 	if button_event and button_event.button_index == 1 and button_event.pressed == false:
-		trigger_mode_to_line_edit.emit()
+		request_line_edit_mode.emit()
 
 # 当buttongroup变化时，将滚动容器滚动到末端
 func _on_button_group_scroll_container_scrollbar_changed() -> void:
@@ -51,14 +50,14 @@ func _on_button_group_scroll_container_scrollbar_changed() -> void:
 	button_group_scroll_container.scroll_horizontal = ceili(scroll_bar.max_value)
 	
 # 当文字变化时更新按钮组
-func _on_available_address_text_changed(new_text: String) -> void:
-	address_text = new_text
+func _on_request_sync_directory(new_text: String) -> void:
+	directory_text = new_text
 	update_button_group()
 
 # 更新按钮组
 func update_button_group() -> void:
 	# 清除按钮组
-	var text := address_text
+	var text := directory_text
 	var children := button_group.get_children()
 	for child in children:
 		button_group.remove_child(child)
@@ -72,7 +71,7 @@ func update_button_group() -> void:
 		if path_list[index].replacen(" ", "") == "": # 移除为空的地址
 			path_list.remove_at(index)
 	if path_list.size() == 0:
-		trigger_mode_to_line_edit.emit()
+		request_line_edit_mode.emit()
 		return
 	# 根据地址片段生成地址按钮和分割按钮
 	var button_path_list := []
@@ -83,7 +82,7 @@ func update_button_group() -> void:
 		var path_button = Button.new() # 原生按钮即可
 		path_button.text = path_segment
 		path_button.button_up.connect(func():
-			address_text_changed.emit(button_path)
+			directory_changed.emit(button_path)
 		)
 		button_group.add_child(path_button)
 		# 实例化分割按钮，点击后显示该路径下的子路径
@@ -91,12 +90,13 @@ func update_button_group() -> void:
 		var sub_directories := path_dir.get_directories()
 		if sub_directories.size() == 0: # 无子路径的话不显示按钮
 			continue
-		var seperate_button := seperate_button_prefab.instantiate() as AddressLineEditSeperateButton
-		seperate_button.options_parent = options_parent
-		seperate_button.options = sub_directories
-		seperate_button.item_selected.connect(func(_index: int, content: String):
+		var seperate_button := seperate_button_prefab.instantiate() as Node
+		seperate_button.set("options_parent", options_parent)
+		seperate_button.set("options", sub_directories)
+		var item_selected := seperate_button.get("item_selected") as Signal
+		item_selected.connect(func(_index: int, content: String):
 			var selected_path := button_path + "/" + content
-			address_text_changed.emit(selected_path)
+			directory_changed.emit(selected_path)
 		)
 		button_group.add_child(seperate_button)
 		button_group_dirty = true

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://3hxnj6bv527c"]
+
+[ext_resource type="Script" uid="uid://c10m170qkjq43" path="res://addons/line_edit_with_dropdown_plugin/line_edit_with_dropdown/line_edit_with_dropdown.gd" id="1_sle1n"]
+
+[node name="LineEditWithDropdown" type="LineEdit"]
+offset_right = 68.5625
+offset_bottom = 31.0
+script = ExtResource("1_sle1n")

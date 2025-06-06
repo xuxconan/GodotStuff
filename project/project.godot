@@ -21,7 +21,7 @@ project/assembly_name="project"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/address_line_edit/plugin.cfg", "res://addons/address_line_edit_plugin/plugin.cfg", "res://addons/test_plugin/plugin.cfg")
+enabled=PackedStringArray("res://addons/directory_line_edit_plugin/plugin.cfg", "res://addons/line_edit_with_dropdown_plugin/plugin.cfg")
 
 [rendering]
 

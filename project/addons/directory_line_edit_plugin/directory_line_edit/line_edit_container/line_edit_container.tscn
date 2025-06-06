@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxqe5w18nuuyq"]
+
+[ext_resource type="Script" uid="uid://d0yutdbbidvb7" path="res://addons/directory_line_edit_plugin/directory_line_edit/line_edit_container/line_edit_container.gd" id="1_luytr"]
+
+[node name="LineEditContainer" type="Control" node_paths=PackedStringArray("line_edit", "history_list")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 84.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_luytr")
+line_edit = NodePath("LineEdit")
+history_list = NodePath("ItemList")
+metadata/_tab_index = 0
+
+[node name="LineEdit" type="LineEdit" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+placeholder_text = "请输入地址"
+clear_button_enabled = true
+flat = true
+select_all_on_focus = true
+caret_blink = true
+
+[node name="ItemList" type="ItemList" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2

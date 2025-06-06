@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://c65l0yen0e8yg"]
+
+[ext_resource type="Script" uid="uid://87tl3j46mlsr" path="res://addons/directory_line_edit_plugin/directory_line_edit/directory_line_edit.gd" id="1_20wmr"]
+[ext_resource type="PackedScene" uid="uid://dxqe5w18nuuyq" path="res://addons/directory_line_edit_plugin/directory_line_edit/line_edit_container/line_edit_container.tscn" id="4_3oqvc"]
+[ext_resource type="PackedScene" uid="uid://bn1m42m5y8ic" path="res://addons/directory_line_edit_plugin/directory_line_edit/button_group_container/button_group_container.tscn" id="5_ml4xy"]
+
+[node name="DirectoryLineEdit" type="Control" node_paths=PackedStringArray("root_node", "mode_container", "line_edit_container", "button_group_container", "dialog")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 600.0
+offset_bottom = 40.0
+script = ExtResource("1_20wmr")
+root_node = NodePath(".")
+mode_container = NodePath("TabContainer")
+line_edit_container = NodePath("TabContainer/LineEditContainer")
+button_group_container = NodePath("TabContainer/ButtonGroupContainer")
+dialog = NodePath("AcceptDialog")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+tabs_visible = false
+
+[node name="LineEditContainer" parent="TabContainer" instance=ExtResource("4_3oqvc")]
+layout_mode = 2
+
+[node name="ButtonGroupContainer" parent="TabContainer" instance=ExtResource("5_ml4xy")]
+visible = false
+layout_mode = 2
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+initial_position = 1
+size = Vector2i(300, 150)
+unresizable = true
+always_on_top = true
+popup_window = true
+dialog_autowrap = true
+
+[node name="ItemList" type="ItemList" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 48.0
+grow_horizontal = 2
+auto_height = true

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bn1m42m5y8ic"]
 
-[ext_resource type="Script" uid="uid://dbkx5jf7v5cle" path="res://addons/address_line_edit_plugin/address_line_edit/button_group_container/button_group_container.gd" id="1_qm87y"]
-[ext_resource type="PackedScene" uid="uid://cpsgc18o0lgjy" path="res://addons/address_line_edit_plugin/address_line_edit/sperate_button/seperate_button.tscn" id="2_7ssqd"]
+[ext_resource type="Script" uid="uid://dbkx5jf7v5cle" path="res://addons/directory_line_edit_plugin/directory_line_edit/button_group_container/button_group_container.gd" id="1_qm87y"]
+[ext_resource type="PackedScene" uid="uid://cpsgc18o0lgjy" path="res://addons/directory_line_edit_plugin/directory_line_edit/sperate_button/seperate_button.tscn" id="2_7ssqd"]
 
 [node name="ButtonGroupContainer" type="HBoxContainer" node_paths=PackedStringArray("button_group", "button_group_scroll_container", "button_group_mode_trigger_zone")]
 script = ExtResource("1_qm87y")
